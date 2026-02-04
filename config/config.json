@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "test1234",
+    "database": "easy_school",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "test1234",
+    "database": "easy_school",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "test1234",
+    "database": "easy_school_prod",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
