@@ -1,30 +1,30 @@
-import {Datatypes} from "sequelize";
+import {DataTypes} from "sequelize";
 
 export default function userModel(sequelize) {
   const User =sequelize.define('user',
     {
       id_user:{
-        type:Datatypes.BIGINT,
+        type:DataTypes.BIGINT,
         autoIncrement:true,
         primaryKey:true},
         nom:{
-          type:Datatypes.STRING,
+          type:DataTypes.STRING,
           allowNull:false
         },
         email: {
-          type:Datatypes.STRING,
+          type:DataTypes.STRING,
           allowNull:false,
           unique:false,
           unique:true,
           validate:{isEmail:true}
         },
         password:{
-          type:Datatypes.STRING,
+          type:DataTypes.STRING,
           allowNull:false
 
         },
         role:{
-          type:Datatypes.Enum('parent','enseignant','admin'),
+          type:DataTypes.ENUM('parent','enseignant','admin'),
             allowNull:false,
             defaulValue:'parent'
 

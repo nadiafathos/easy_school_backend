@@ -1,11 +1,12 @@
-'use strict';
+
 
 /**
  * index.js – connexion à la base de données et définition des associations
  */
 
-import { Sequelize } from "sequelize";
+import { Sequelize,DataTypes } from "sequelize";
 import dotenv from "dotenv";
+
 dotenv.config(); // pour utiliser les variables d'environnement depuis .env
 
 // Import des modèles
@@ -16,42 +17,50 @@ import homeworkModel from "./homework.model.js";
 import mealModel from "./meal.model.js";
 import reservationMealModel from "./reservationMeal.model.js";
 import eventModel from "./event.model.js";
-import participationEventModel from "./participationEvent.model.js";
+import participationEventModel from "./participationsEvent.model.js";
 
 /**
  * Connexion à la base PostgreSQL
  * On utilise les variables d'environnement pour sécuriser les identifiants
  */
 const sequelize = new Sequelize(
-  process.env.DB_DATABASE,  // Nom de la base
-  process.env.DB_USERNAME,  // Utilisateur
+  process.env.DB_NAME,  // Nom de la base
+  process.env.DB_USER,  // Utilisateur
   process.env.DB_PASSWORD,  // Mot de passe
   {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: "postgres",
+    dialect: process.env.DB_DIALECT || "postgres",
     logging: false // Désactive l'affichage des requêtes SQL dans la console
   }
 );
+
+try {
+  await sequelize.authenticate();
+  console.log("Connexion à la DB réussie ✅", process.env.DB_USER);
+} catch (err) {
+  console.error("Erreur de connexion à la DB :", err.message);
+}
 
 /**
  * Objet db qui contiendra tous les modèles et la connexion
  */
 const db = {};
 db.sequelize = sequelize;
+db.Sequelize =Sequelize;
 
 /**
  * Initialisation des modèles
  * Chaque modèle est une fonction qui prend 'sequelize' et 'DataTypes' en paramètres
  */
-db.User = userModel(sequelize);
-db.Classe = classeModel(sequelize);
-db.Child = childModel(sequelize);
-db.Homework = homeworkModel(sequelize);
-db.Meal = mealModel(sequelize);
-db.ReservationMeal = reservationMealModel(sequelize);
-db.Event = eventModel(sequelize);
-db.ParticipationEvent = participationEventModel(sequelize);
+db.User = userModel(sequelize,DataTypes);
+db.Classe = classeModel(sequelize,DataTypes);
+db.Child = childModel(sequelize,DataTypes);
+db.Homework = homeworkModel(sequelize,DataTypes);
+db.Meal = mealModel(sequelize,DataTypes);
+db.ReservationMeal = reservationMealModel(sequelize,DataTypes);
+db.Event = eventModel(sequelize,DataTypes);
+db.ParticipationEvent = participationEventModel(sequelize,DataTypes);
 
 /**
  * ============================

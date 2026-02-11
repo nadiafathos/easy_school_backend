@@ -11,7 +11,7 @@ export default function homeworkModel(sequelize) {
       },
       classe_id: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false//chaque devoir liécà une classe
       },
       titre: {
         type: DataTypes.STRING,
@@ -35,9 +35,14 @@ export default function homeworkModel(sequelize) {
       timestamps: true
     }
   );
-
+//associations
   Homework.associate = (models) => {
-    Homework.belongsTo(models.Classe, { foreignKey: "classe_id" });
+
+    Homework.belongsTo(models.Classe, { foreignKey: "classe_id" ,
+      as: "classe",
+      onDelet:"CASCADE",
+      onUpdate:"CASCADE",
+    });
   };
 
   return Homework;

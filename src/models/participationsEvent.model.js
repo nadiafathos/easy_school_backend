@@ -24,13 +24,25 @@ export default function participationEventModel(sequelize) {
     },
     {
       tableName: "participation_events",
-      timestamps: true
+      timestamps: true,
     }
   );
+  //associations
 
   ParticipationEvent.associate = (models) => {
-    ParticipationEvent.belongsTo(models.Child, { foreignKey: "child_id" });
-    ParticipationEvent.belongsTo(models.Event, { foreignKey: "event_id" });
+    //un enregistrement par enfant
+
+    ParticipationEvent.belongsTo(models.Child, { foreignKey: "child_id" ,as: "child",
+        onDelete:"CASCADE",
+        onUpdate:"CASCADE"
+     });
+     //un enregistrement pour un evenement
+     
+     ParticipationEvent.belongsTo(models.Event, { foreignKey: "event_id",
+        as:"event",
+        onDelete:"CASCADE",
+        onUpdate:"CASCADE",
+      });
   };
 
   return ParticipationEvent;

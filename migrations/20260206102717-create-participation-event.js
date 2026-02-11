@@ -1,6 +1,6 @@
 'use strict';
 
-export default {
+module.exports={
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('participation_events', {
       id_participation: {

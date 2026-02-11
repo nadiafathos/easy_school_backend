@@ -32,9 +32,21 @@ export default function reservationMealModel(sequelize) {
     }
   );
 
+  //association
+
   ReservationMeal.associate = (models) => {
-    ReservationMeal.belongsTo(models.Child, { foreignKey: "child_id" });
-    ReservationMeal.belongsTo(models.Meal, { foreignKey: "meal_id" });
+    //une reservation pour un enfant
+    ReservationMeal.belongsTo(models.Child, { foreignKey: "child_id",
+      as:"child",
+      onDelete:"CASCADE",
+      onUpdate:"CASCADE",
+     });
+     //reservation pour un repas
+    ReservationMeal.belongsTo(models.Meal, { foreignKey: "meal_id" ,
+      as:"meal",
+      onDelete:"CASCADE",
+      onUpdate:"CASCADE",
+    });
   };
 
   return ReservationMeal;

@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { noTrueLogging } from "sequelize/lib/utils/deprecations";
+
 
 export default function childModel(sequelize){
     const Child =sequelize.define(
@@ -30,12 +30,18 @@ export default function childModel(sequelize){
     );
 //un enfant appartient à un parent
     Child.associate =(models) =>{
-        Child.belongsTo(models.Classe,{foreignKey:"classe_id"});
+
+        Child.belongsTo(models.Classe,{foreignKey:"classe_id", as:"classe",
+        });
+
         Child.belongsTo(models.User,{foreignKey:"parent_id",
             as:"parent"
         }),
-        //
+        // un enfant a plusieurs reservations de repas
         Child.hasMany(models.ReservationMeal,{foreignKey:"child_id"});
+        
+        //un enfant participe à plusieurs evenements
+
         Child.hasMany(models.ParticipationEvent,{foreignKey:"child_id"});
     };
     return Child;

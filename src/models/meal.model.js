@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
-import { noTrueLogging } from "sequelize/lib/utils/deprecations";
+
+
 export default function mealModel(sequelize) {
     const Meal =sequelize.define(
         "Meal",
@@ -31,8 +32,15 @@ export default function mealModel(sequelize) {
             timestamps:true
         }
     );
+
+    //association 
+
     Meal.associate =(models) => {
-        Meal.hasMany(models.ReservationMeal,{foreignKey:"meal_id"});
+        Meal.hasMany(models.ReservationMeal,{foreignKey:"meal_id",
+            as:"reservations",
+            onDelete:"CASCADE",
+            onUpdate:"CASCADE",
+        });
     };
     return Meal;
 }
