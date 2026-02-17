@@ -5,6 +5,11 @@ import {
     getChildById,
     updateChild,
     deleteChild,
+
+    getHomeworkByChild,
+    getMealsByChild,
+
+    getEventsByChild
     
 }
 
@@ -23,5 +28,16 @@ import {
  router.get("/:id",authMiddleware,getChildById);
  router.put("/:id",authMiddleware,updateChild);
  router.delete("/:id",authMiddleware,deleteChild);
+ 
+ // Repas d’un enfant
+router.get("/:id/meals", authMiddleware, getMealsByChild);
+
+// Devoirs d’un enfant
+router.get("/:id/homework", authMiddleware, getHomeworkByChild);
+
+// Événements d’un enfant
+router.get("/:id/events", authMiddleware, getEventsByChild);
+
+
 
  export default router;

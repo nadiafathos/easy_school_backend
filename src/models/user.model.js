@@ -26,7 +26,7 @@ export default function userModel(sequelize) {
         role:{
           type:DataTypes.ENUM('parent','enseignant','admin'),
             allowNull:false,
-            defaulValue:'parent'
+            defaultValue:'parent'
 
         } 
       },

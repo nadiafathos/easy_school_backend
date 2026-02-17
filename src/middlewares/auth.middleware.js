@@ -7,7 +7,7 @@ export default function (req,res,next) {
     const authHeader =req.headers['authorization'];
 
     if (!authHeader)
-        return res.stattus(401).json({message:'Token manquant'});
+        return res.status(401).json({message:'Token manquant'});
     
     
   const token = authHeader.split(' ')[1];

@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import db from "./models/index.js";
+import authRoute from "./routes/auth.route.js"
 
 //import des routes
 
@@ -22,7 +22,12 @@ const app =express();
 
 app.use(express.json());
 
+//Routes auth
+app.use("/api/auth",authRoute);
+
+
 //Routes
+
 
 app.use('/api/users',userRoute);
 app.use("/api/children",childRoute);

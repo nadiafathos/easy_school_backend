@@ -17,7 +17,7 @@ const Classe =sequelize.define(
             type:DataTypes.STRING,
             allowNull:false
         },
-        enseignat_id:{
+        enseignant_id:{
             type:DataTypes.BIGINT,
             allowNull:false
         }

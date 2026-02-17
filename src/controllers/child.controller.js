@@ -68,4 +68,69 @@ export const deleteChild=async(req,res)=>{
 }
     
 };
+export const getMealsByChild = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const meals = await db.ReservationMeal.findAll({
+      where: { child_id: id },
+      include: [
+        {
+          model: db.Meal,
+          foreignKey: "meal_id"
+        }
+      ]
+    });
+
+    res.json(meals);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getHomeworkByChild = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const child = await db.Child.findByPk(id);
+
+    if (!child) {
+      return res.status(404).json({ message: "Enfant introuvable" });
+    }
+
+    const homework = await db.Homework.findAll({
+      where: { classe_id: child.classe_id }
+    });
+
+    res.json(homework);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getEventsByChild = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const events = await db.ParticipationEvent.findAll({
+      where: { child_id: id },
+      include: [
+        {
+          model: db.Event,
+          foreignKey: "event_id"
+        }
+      ]
+    });
+
+    res.json(events);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+
+
+
+
 

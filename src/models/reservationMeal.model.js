@@ -7,45 +7,44 @@ export default function reservationMealModel(sequelize) {
       id_reservation: {
         type: DataTypes.BIGINT,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
       },
       child_id: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       meal_id: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       type_repas: {
         type: DataTypes.ENUM("porc", "sans porc", "poisson"),
-        allowNull: false
+        allowNull: false,
       },
       absence: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     },
     {
       tableName: "reservation_meals",
-      timestamps: true
+      timestamps: true,
     }
   );
 
-  //association
-
   ReservationMeal.associate = (models) => {
-    //une reservation pour un enfant
-    ReservationMeal.belongsTo(models.Child, { foreignKey: "child_id",
-      as:"child",
-      onDelete:"CASCADE",
-      onUpdate:"CASCADE",
-     });
-     //reservation pour un repas
-    ReservationMeal.belongsTo(models.Meal, { foreignKey: "meal_id" ,
-      as:"meal",
-      onDelete:"CASCADE",
-      onUpdate:"CASCADE",
+    ReservationMeal.belongsTo(models.Child, {
+      foreignKey: "child_id",
+      as: "child",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+
+    ReservationMeal.belongsTo(models.Meal, {
+      foreignKey: "meal_id",
+      as: "meal",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     });
   };
 
