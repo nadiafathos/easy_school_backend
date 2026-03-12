@@ -9,7 +9,7 @@ import {
     getHomeworkByChild,
     getMealsByChild,
 
-    getEventsByChild
+    getEventsByChild    
     
 }
 

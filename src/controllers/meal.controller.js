@@ -1,7 +1,8 @@
 import db from "../models/index.js";
 const Meal = db.Meal;
-
+import{Op} from "sequelize";
 // Créer un repas
+
 export const createMeal = async (req, res) => {
   try {
     const { date, description, allergenes } = req.body;
@@ -59,3 +60,27 @@ export const deleteMeal = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+//Recuperer les repas de la semaine
+export const getMealsOfWeek = async (req, res) => {
+  try {
+    const today = new Date();
+    const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
+    const friday = new Date(monday);
+    friday.setDate(monday.getDate() + 4);
+
+    const meals = await Meal.findAll({
+      where: {
+        date: {
+          [Op.between]: [monday, friday],
+        },
+      },
+      order: [["date", "ASC"]],
+    });
+
+    res.json(meals);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+

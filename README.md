@@ -1,185 +1,378 @@
-Projet  d'élaboration d'une application mobile de gestion:
--repas de cantine
--de devoir
--de sorties
-dans une école primaire.
 
-Nom de L'application: "EASY_SCHOOL(à changer plustard)
-Api Restfull React Native,Express Js
+EASY_SCHOOL – Application mobile de gestion scolaire
 
-## Diagrammes
+Application mobile de gestion pour une école primaire :
 
-📄 Diagramme de classes  
-[Voir le PDF](docs/diagram&me-classes.pdf)
+USERS STOTY:
 
+- gestion des repas de cantine
+- gestion des devoirs
+- gestion des sorties / événements
+- gestion de la présence des enfants
+- système de notifications pour les parents et les enseignants
+Technos principales : React Native (Expo) + API RESTful Node.js / Express.js + Sequelize / POstgres.
 
+🎯 Objectifs fonctionnels
+1. Gestion de la cantine
 
-USERS STORIES:
+Parents (USER01)
 
- 1-Gestion de la Cantine:
-
-Parents:USER01:
-En tant que Parent:
-  -je veux pouvoir me connecter en tant que parent de tel enfant
-  -je veux voir le menu de la cantine du mois ou de la semaine
-  -je veux pouvoir réserver un menu pour mon enfant
-  -je veux pouvoir annuler un repas pour mon enfant
-  -je veux recevoir une notification si le menu change
-
-Enseignants/personnel USER02:
-En tant que Enseignant:
-  -je veux pouvoir ajouter ou modifier le menu pour chaque jour
-  - je veux pouvoir faire les réservations des repas pour gérer le stock
+En tant que parent, je veux pouvoir:
+- me connecter en tant que parent de mon enfant
+- voir le menu de la cantine de la semaine / du mois
+- réserver un repas pour mon enfant
+- annuler un repas pour mon enfant
+- recevoir une notification si le menu change ou si un nouveau repas est ajouté
 
 
-2-Gestion des devoirs:
+Enseignants / personnel (USER02)
 
-Parents:USER03:
-En tant que Parent:
-  -je veux pouvoir voir les devoirs assignés à mon enfant
-  -je veux pouvoir recevoir un rappel de la date limite
-  -je veux pouvoir recevoir une notification si devoir de mon enfant est fait ou pas
+En tant qu’enseignant, je veux pouvoir:
+- ajouter ou modifier le menu pour chaque jour
+- consulter les réservations de repas pour gérer le stock
 
-Enseignants:USER04:
-En tant que Enseignant:
-   -je veux pouvoir créer ,ajouter ou modifier ou supprimer un devoir pour mes élèves
-   -je veux pouvoir marquer un devoir terminé ou corrigé 
+2. Gestion des devoirs:
 
-3-Gestion des sorties /évènements:
+Parents (USER03)
 
-Parents:USER5:
-En tant que parent:
-  -je veux pouvoir consulter les sorties ou évènements prévus pour mon enfant
-  -je veux pouvoir confirmer ou annuler la participation de mon enfant à une sortie
+En tant que parent, je veux pouvoir :
+- voir les devoirs assignés à mon enfant
+- recevoir un rappel avant la date limite
+- recevoir une notification si le devoir de mon enfant est fait ou non
 
-Enseignant:USER6: 
-En tant que enseignant:
-  -je veux pouvoir planifier une sortie ou un évènement avec date et lieu 
-  -je veux pouvoir consulter la liste des participants pour chaque sortie
-  -je veux pouvoir annuler ou modifier une sortie ou un évènement
+Enseignants (USER04)
+
+En tant qu’enseignant, je veux pouvoir:
+- créer, modifier, supprimer un devoir pour ma classe
+- marquer un devoir comme terminé / corrigé
+
+3. Gestion des sorties / événements
+
+Parents (USER05)
+
+En tant que parent, je veux pouvoir :
+- consulter les sorties / événements prévus pour mon enfant
+- confirmer ou refuser la participation de mon enfant
+
+Enseignants (USER06)
+
+En tant qu’enseignant, je veux pouvoir :
+- planifier une sortie ou un événement (date, lieu, matériel, coût)
+- consulter la liste des participants
+- modifier ou annuler une sortie / un événement
+- envoyer des rappels aux parents qui n’ont pas encore répondu
+
+4. Gestion de la présence
+Enseignants
+En tant qu’enseignant, je veux pouvoir :
+
+- encoder la présence / absence des enfants de ma classe
+- indiquer l’heure d’arrivée et de départ si nécessaire
+
+Parents
+
+En tant que parent, je veux pouvoir :
+
+- recevoir une notification lorsque mon enfant est marqué présent ou absent
+
+5. Authentification et profil
+
+Tous les utilisateurs
+
+En tant qu’utilisateur, je veux pouvoir :
+
+- m’inscrire et me connecter avec email / mot de passe
+- réinitialiser mon mot de passe
+- mettre à jour mes informations personnelles
+- supprimer mon compte
+
+6. Fonctionnalités mobiles / capteurs
+
+- Notifications push pour les changements importants (menus, devoirs, événements, présence).
+
+- Scan de QR code ou prise de photo pour valider la présence lors d’une sortie.
+
+- Fonctionnement hors-ligne avec synchronisation automatique dès qu’il y a une connexion (objectif futur).
 
 
-4-Authentification et Profil
+PRINCIPALES ENTITES:
 
-Tous les users ou utilisateurs:
-En tant que utilisateur
-   -je veux pouvoir m'inscrire et me connecter avec mon email/mot de passe
-   -je veux pouvoir réinitialiser mon mot de passe si je l'oublie
-   -je veux pouvoir mettre à jour mes informations personnelles
-   -je veux pouvoir supprimer mon compte 
-
-5-Fonctionalites Mobile/Capteurs:
-
-Parents:
-En tant que parent, je veux pouvoir recevoir une notification push pour les changements importants(menu,devoirs,sorties).
-
-Enseignement/utilisateur:
-En tant que parent ou enseignement ,je veux pouvoir scanner un QR code ou prendre une photo pour valider la présence d'un enfant lors d'une sortie.
-
-En tant qu'utilisateur je veux que l'application fonctionne hors-ligne et se synchronise automatiquement dès qu'il y a connexion.
+SCHOOL/
 
 
-Diagramme de base de données(Modèle logique de données:entités relations)
+schools
+---------
+id_school (PK)
+nom
+adresse
+telephone
+
+users
+---------
+id_user (PK)
+nom
+prenom
+email (unique)
+password
+role  (parent | enseignant | admin)
+school_id (FK → schools.id_school)
+
+classes
+---------
+id_classe (PK)
+nom
+enseignant_id (FK → users.id_user)
+school_id (FK → schools.id_school)
+
+children
+---------
+id_child (PK)
+nom
+prenom
+date_naissance
+classe_id (FK → classes.id_classe)
+parent_id (FK → users.id_user)
 
 
-Diagramme entité relation:
-Table users {
-  id_user int [pk, increment]
-  nom varchar
-  email varchar [unique]
-  password varchar
-  role varchar [note: "parent | enseignant | admin"]
-}
+meals
+---------
+id_meal (PK)
+meal_date
+description
+allergenes
 
-Table classes {
-  id_classe int [pk, increment]
-  nom varchar
-  enseignant_id int
-}
 
-Table children {
-  id_child int [pk, increment]
-  nom varchar
-  classe_id int
-  parent_id int
-}
+reservation_meal
+---------
+id_reservation (PK)
+child_id (FK → children.id_child)
+meal_id (FK → meals.id_meal)
+type_repas (porc | sans porc | poisson)
+absence (boolean)
 
-Table meals {
-  id_meal int [pk, increment]
-  meal_date date
-  description text
-  allergenes varchar
-}
+homework
+---------
+id_homework (PK)
+classe_id (FK → classes.id_classe)
+titre
+description
+fichier
+homework_date
 
-Table reservation_meal {
-  id_reservation int [pk, increment]
-  child_id int
-  meal_id int
-  type_repas varchar [note: "porc | sans porc | poisson"]
-  absence boolean
-}
+events
+---------
+id_event (PK)
+titre
+event_date
+lieu
+materiel
+cout
 
-Table homework {
-  id_homework int [pk, increment]
-  classe_id int
-  titre varchar
-  description text
-  fichier varchar
-  homework_date date
-}
+participation_event
+---------
+id_participation (PK)
+child_id (FK → children.id_child)
+event_id (FK → events.id_event)
+statut (autorisé | refusé | en attente)
 
-Table events {
-  id_event int [pk, increment]
-  titre varchar
-  event_date date
-  lieu varchar
-  materiel text
-  cout decimal
-}
+attendance
+---------
+id_attendance (PK)
+child_id (FK → children.id_child)
+date
+present (boolean)
+heure_arrivee
+heure_depart
 
-Table participation_event {
-  id_participation int [pk, increment]
-  child_id int
-  event_id int
-  statut varchar [note: "autorisé | refusé | en attente"]
-}
+notifications
+---------
+id_notification (PK)
+user_id (FK → users.id_user)
+type (meal | homework | homework_done | event | event_reminder | presence | absence)
+message
+entity_id (id du repas / devoir / événement / enfant)
+is_read (boolean)
+created_at
 
-/* Relations */
-Ref: classes.enseignant_id > users.id_user
-Ref: children.classe_id > classes.id_classe
-Ref: children.parent_id > users.id_user
-Ref: reservation_meal.child_id > children.id_child
-Ref: reservation_meal.meal_id > meals.id_meal
-Ref: homework.classe_id > classes.id_classe
-Ref: participation_event.child_id > children.id_child
-Ref: participation_event.event_id > events.id_event
+// RELATIONS:
 
-***Structure du backend
+users.school_id → schools.id_school
+classes.school_id → schools.id_school
+classes.enseignant_id → users.id_user
+children.classe_id → classes.id_classe
+children.parent_id → users.id_user
+reservation_meal.child_id → children.id_child
+reservation_meal.meal_id → meals.id_meal
+homework.classe_id → classes.id_classe
+participation_event.child_id → children.id_child
+participation_event.event_id → events.id_event
+attendance.child_id → children.id_child
+notifications.user_id → users.id_user
+
+
+erDiagram
+
+    SCHOOLS ||--o{ USERS : "contient"
+    SCHOOLS ||--o{ CLASSES : "contient"
+
+    USERS ||--o{ CLASSES : "enseigne"
+    USERS ||--o{ CHILDREN : "parent de"
+    USERS ||--o{ NOTIFICATIONS : "reçoit"
+
+    CLASSES ||--o{ CHILDREN : "contient"
+    CLASSES ||--o{ HOMEWORK : "donne"
+
+    CHILDREN ||--o{ RESERVATION_MEAL : "réserve"
+    CHILDREN ||--o{ PARTICIPATION_EVENT : "participe"
+    CHILDREN ||--o{ ATTENDANCE : "présence"
+
+    MEALS ||--o{ RESERVATION_MEAL : "réservé pour"
+    EVENTS ||--o{ PARTICIPATION_EVENT : "concerne"
+
+    HOMEWORK ||--o{ HOMEWORK_SUBMISSION : "soumissions"
+
+
+    SCHOOLS {
+        int id_school PK
+        varchar nom
+        varchar adresse
+        varchar telephone
+    }
+
+    USERS {
+        int id_user PK
+        varchar nom
+        varchar prenom
+        varchar email
+        varchar password
+        varchar role
+        int school_id FK
+    }
+
+    CLASSES {
+        int id_classe PK
+        varchar nom
+        int enseignant_id FK
+        int school_id FK
+    }
+
+    CHILDREN {
+        int id_child PK
+        varchar nom
+        varchar prenom
+        date date_naissance
+        int classe_id FK
+        int parent_id FK
+    }
+
+    MEALS {
+        int id_meal PK
+        date meal_date
+        text description
+        varchar allergenes
+    }
+
+    RESERVATION_MEAL {
+        int id_reservation PK
+        int child_id FK
+        int meal_id FK
+        varchar type_repas
+        boolean absence
+    }
+
+    HOMEWORK {
+        int id_homework PK
+        int classe_id FK
+        varchar titre
+        text description
+        varchar fichier
+        date homework_date
+    }
+        HOMEWORK_SUBMISSION {
+        int id_submission PK
+        int homework_id FK
+        int child_id FK
+        varchar fichier
+        varchar statut
+        datetime date_envoi
+    }
+
+
+    EVENTS {
+        int id_event PK
+        varchar titre
+        date event_date
+        varchar lieu
+        text materiel
+        decimal cout
+    }
+
+    PARTICIPATION_EVENT {
+        int id_participation PK
+        int child_id FK
+        int event_id FK
+        varchar statut
+    }
+
+    ATTENDANCE {
+        int id_attendance PK
+        int child_id FK
+        date date
+        boolean present
+        time heure_arrivee
+        time heure_depart
+    }
+
+    NOTIFICATIONS {
+        int id_notification PK
+        int user_id FK
+        varchar type
+        text message
+        int entity_id
+        boolean is_read
+        datetime created_at
+    }
+
+
+
+
 
 easy_school_backend/
 │
 ├── src/
 │   ├── app.js
 │   ├── server.js
-│   
+│
 │   ├── config/
 │   │   └── db.js
 │
 │   ├── routes/
 │   │   ├── auth.routes.js
 │   │   ├── users.routes.js
+│   │   ├── schools.routes.js
 │   │   ├── classes.routes.js
+│   │   ├── children.routes.js
 │   │   ├── meals.routes.js
+│   │   ├── reservations.routes.js
 │   │   ├── homeworks.routes.js
-│   │   └── events.routes.js
+│   │   ├── events.routes.js
+│   │   ├── participation.routes.js
+│   │   ├── attendance.routes.js
+│   │   └── notifications.routes.js
 │
 │   ├── controllers/
 │   │   ├── auth.controller.js
 │   │   ├── users.controller.js
+│   │   ├── schools.controller.js
 │   │   ├── classes.controller.js
+│   │   ├── children.controller.js
 │   │   ├── meals.controller.js
+│   │   ├── reservations.controller.js
 │   │   ├── homeworks.controller.js
-│   │   └── events.controller.js
+│   │   ├── events.controller.js
+│   │   ├── participation.controller.js
+│   │   ├── attendance.controller.js
+│   │   └── notifications.controller.js
 │
 │   ├── middlewares/
 │   │   ├── auth.middleware.js
@@ -188,11 +381,13 @@ easy_school_backend/
 │   └── utils/
 │       └── hash.js
 │
-── docs
+├── docs/
+│   └── diagrammes, spécifications, etc.
 ├── .env
 ├── .gitignore
 ├── package.json
 └── README.md
+
 
 
 

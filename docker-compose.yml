@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:17
+    container_name: easy_school_db
+    restart: always
+    environment:
+      POSTGRES_USER: nadia
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: easy_school
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: easy_school_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: nadia
+      DB_PASSWORD: password
+      DB_NAME: easy_school
+      DB_DIALECT: postgres
+      JWT_SECRET: easy_school_secret_nadia_2026
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+

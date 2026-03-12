@@ -37,6 +37,10 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("EMAIL REÇU:", email);
+    console.log("PASSWORD REÇU:", password);
+
+
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -59,3 +63,25 @@ export const login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updatePassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur introuvable" });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashed;
+    await user.save();
+
+    res.json({ message: "Mot de passe mis à jour" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+

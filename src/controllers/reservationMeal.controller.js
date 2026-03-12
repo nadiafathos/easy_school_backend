@@ -1,4 +1,5 @@
 import db from "../models/index.js";
+const ReservationMeal = db.ReservationMeal;
 const Meal = db.Meal;
 
 // Créer un repas
@@ -59,3 +60,28 @@ export const deleteReservationMeal = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Récupérer les réservations d’un enfant
+export const getReservationsByChild = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const reservations = await ReservationMeal.findAll({
+      where: { child_id: id },
+      include: [
+        {
+          model: Meal,
+          as: "meal",
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json(reservations);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+

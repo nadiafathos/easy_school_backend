@@ -12,7 +12,9 @@ import mealRoute from "./routes/meals.route.js";
 import reservationMealRoute from "./routes/reservationMeal.route.js";
 import eventRoute from "./routes/event.route.js";
 import participationEventRoute from "./routes/participationEvent.route.js";
-
+import schoolRoute from "./routes/school.route.js";
+import notificationRoute from "./routes/notification.route.js";
+import attendanceRoute from "./routes/attendance.route.js";
 
 dotenv.config();
 
@@ -37,8 +39,10 @@ app.use("/api/events",eventRoute);
 app.use("/api/meals",mealRoute);
 app.use("/api/participations",participationEventRoute);
 app.use("/api/reservations",reservationMealRoute);
-
-
+app.use("/api/schools",schoolRoute);
+app.use("/api/notifications",notificationRoute);
+app.use("/api/attendances",attendanceRoute);
+    
 //route de test
 app.get("/",(req,res) => {
     res.json({message:"API Easy_School Backend OK"});

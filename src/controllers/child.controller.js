@@ -68,6 +68,7 @@ export const deleteChild=async(req,res)=>{
 }
     
 };
+//recuperer les repas d'unenfant
 export const getMealsByChild = async (req, res) => {
   try {
     const { id } = req.params;
@@ -81,12 +82,16 @@ export const getMealsByChild = async (req, res) => {
         }
       ]
     });
+    
 
     res.json(meals);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+// recuperer les devoirs d'un enfant
+
 
 export const getHomeworkByChild = async (req, res) => {
   try {
@@ -107,6 +112,8 @@ export const getHomeworkByChild = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+//recuperer les evenements d'un enfant
 
 export const getEventsByChild = async (req, res) => {
   try {
