@@ -7,9 +7,15 @@ export default function userModel(sequelize) {
         type:DataTypes.BIGINT,
         autoIncrement:true,
         primaryKey:true},
+
         nom:{
           type:DataTypes.STRING,
           allowNull:false
+        },
+        prenom:{
+          type:DataTypes.STRING,
+          allowNull:false,
+          defaultValue:" "  
         },
         email: {
           type:DataTypes.STRING,
