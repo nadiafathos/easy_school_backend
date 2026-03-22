@@ -18,6 +18,7 @@ import mealModel from "./meal.model.js";
 import reservationMealModel from "./reservationMeal.model.js";
 import eventModel from "./event.model.js";
 import participationEventModel from "./participationsEvent.model.js";
+import schoolModel from "./school.model.js";
 
 /**
  * Connexion à la base PostgreSQL
@@ -61,6 +62,7 @@ db.Meal = mealModel(sequelize,DataTypes);
 db.ReservationMeal = reservationMealModel(sequelize,DataTypes);
 db.Event = eventModel(sequelize,DataTypes);
 db.ParticipationEvent = participationEventModel(sequelize,DataTypes);
+db.School = schoolModel(sequelize,DataTypes);
 
 /**
  * ============================
@@ -118,6 +120,9 @@ db.Child.hasMany(db.ParticipationEvent, { foreignKey: "child_id" });
 db.Event.hasMany(db.ParticipationEvent, { foreignKey: "event_id" });
 db.ParticipationEvent.belongsTo(db.Child, { foreignKey: "child_id" });
 db.ParticipationEvent.belongsTo(db.Event, { foreignKey: "event_id" });
+// Une école a plusieurs enseignants
+db.User.belongsTo(db.School, { foreignKey: "id_school", as: "school" });
+db.Classe.belongsTo(db.School, { foreignKey: "id_school", as: "school" })
 
 /**
  * Export de l'objet db

@@ -141,3 +141,24 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getClassesByTeacher = async (req, res) => {
+    try {
+        const teacherId = req.params.teacherId;     
+
+        const classes = await db.Classe.findAll({
+            where: { enseignant_id: teacherId },
+            include: [  
+                {
+                    model: db.Child,
+                    as: "children",
+                }
+            ],
+        });
+
+        res.json(classes);
+    } catch (error) {
+        res.status(500).json({ message: "erreur serveur" });
+
+    }
+};

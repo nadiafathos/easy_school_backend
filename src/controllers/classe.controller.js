@@ -108,12 +108,50 @@ export const deleteClasse = async (req, res) => {
  * @route GET /classes/teacher/:teacherId
  * @access Admin, Enseignant
  */
-export const getClassesByTeacherId = async (req, res) => {
+
+export const getClassesByTeacher = async (req, res) => {
   try {
-    const classes = await Classe.findAll({ where: { enseignant_id: req.params.id } });
-    res.json(classes);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const teacherId = req.params.id;
+
+    const classes = await db.Classe.findAll({
+      where: { enseignant_id: teacherId },
+      include: [
+        {
+          model: db.Child,
+          as: "children"
+        }
+      ]
+    });
+
+    return res.json(classes);
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
+
+/**
+ * recuperer les enfants d'une classe   
+ * @param {*} req   -
+ * @param {*} res 
+ * @returns 
+ */
+export const getChildrenByClass = async (req, res) => {
+  try {
+    const classId = req.params.id;
+
+    const children = await db.Child.findAll({
+      where: { classe_id: classId }
+    });
+
+    return res.json(children);
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
 

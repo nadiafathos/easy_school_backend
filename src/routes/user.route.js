@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllUsers,updateUser,getUserById,deleteUser,loginUser, createUser } from '../controllers/user.controller.js';
+import { getAllUsers,updateUser,getUserById,deleteUser,loginUser, createUser ,getClassesByTeacher} from '../controllers/user.controller.js';
 
 //import {authenticate} from "../middlewares/auth.middleware.js"
 import { authorizeRoles } from "../middlewares/role.middlware.js";
@@ -43,6 +43,12 @@ router.delete(
   authMiddleware,
   authorizeRoles('admin'),
   deleteUser
+);
+router.get(
+  '/teacher/:teacherId/classes',
+  authMiddleware,
+  authorizeRoles('admin', 'enseignant'),
+  getClassesByTeacher
 );
 
 
