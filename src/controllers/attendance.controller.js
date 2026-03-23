@@ -13,22 +13,32 @@ const{ Attendance, Child } = db;
  * supprimer une présence
  */ 
 
-export const createAttendance = async(req,res) => {
-    try {
-        const {child_id,date,present,heure_arrivee,heure_depart}=req.body;
-        // Vérifier si l'enfant existe
-        const child = await Child.findByPk(child_id);
-        if (!child) {
-            return res.status(404).json({message:"Enfant introuvable"});
-        }
-        const attendance = await Attendance.create({child_id,date,present,heure_arrivee,heure_depart});
-        return res.status(201).json(attendance);
-    } catch (error){
+export const createAttendance = async (req, res) => {
+  try {
+    const { child_id, date, present, heure_arrivee, heure_depart } = req.body;
 
-    };
-    console.error("Erreur createAttendance :", error);
-        return res.status(500).json({ message: "Erreur serveur." });
+    // Vérifier si l'enfant existe
+    const child = await Child.findByPk(child_id);
+    if (!child) {
+      return res.status(404).json({ message: "Enfant introuvable" });
     }
+
+    const attendance = await Attendance.create({
+      child_id,
+      date,
+      present,
+      heure_arrivee,
+      heure_depart,
+    });
+
+    return res.status(201).json(attendance);
+
+  } catch (error) {
+    console.error("Erreur createAttendance :", error);
+    return res.status(500).json({ message: "Erreur serveur." });
+  }
+};
+
 
 
 /**

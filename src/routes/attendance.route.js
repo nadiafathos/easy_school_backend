@@ -3,7 +3,7 @@
  * Ce fichier définit les routes pour les opérations CRUD sur les présences (Attendance) dans l'application Easy School.
  * Il utilise le contrôleur AttendanceController pour gérer la logique métier associée à chaque route.  
  */
-import { Router } from "express";
+import e, { Router } from "express";
 import {
     createAttendance,       
     getAttendanceByChild,
@@ -13,6 +13,8 @@ import {
     getAllAttendance        
 } from "../controllers/attendance.controller.js";   
 import authMiddleware from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middlware.js";
+
 
 const router = Router();
 //ajouter une présence
@@ -27,4 +29,8 @@ router.put("/:id", authMiddleware, updateAttendance);
 router.delete("/:id", authMiddleware, deleteAttendance);
 //récupérer toutes les présences
 router.get("/", authMiddleware, getAllAttendance);  
+
+//récupérer les présences d’un enfant
+router.get("/:id/child",authMiddleware,authorizeRoles("admin","enseignant"),getAttendanceByChild);  
+
 export default router;
