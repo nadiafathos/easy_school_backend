@@ -16,8 +16,12 @@ import schoolRoute from "./routes/school.route.js";
 import notificationRoute from "./routes/notification.route.js";
 import attendanceRoute from "./routes/attendance.route.js";
 import teacherRoute from "./routes/teacher.route.js";
+
+import  schoolContact from "./routes/schoolContact.route.js";
+import schoolMapRoute from "./routes/schoolMap.route.js";
+import schoolMenu from "./routes/schoolMenu.route.js";  
 dotenv.config();
-import  schoolContact from "./routes/schoolContact.route.js"
+
 
 const app =express();
 
@@ -45,6 +49,10 @@ app.use("/api/notifications",notificationRoute);
 app.use("/api/attendances",attendanceRoute);
 app.use("/api/teachers",teacherRoute); 
 app.use("/api/schools/contact", schoolContact); // Route pour récupérer les coordonnées d'une école
+
+app.use("/api/schools", schoolMapRoute); // Route pour récupérer la carte d'une école   
+app.use("/api/schools", schoolMenu  ); // Route pour récupérer le menu d'une école 
+
 //route de test
 app.get("/",(req,res) => {
     res.json({message:"API Easy_School Backend OK"});
