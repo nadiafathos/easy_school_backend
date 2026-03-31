@@ -25,6 +25,16 @@ export default function schoolModel(sequelize) {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            //ajout du directeur de l'école
+            director_name: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            schedule:{
+                type: DataTypes.STRING,
+                allowNull: true,    
+
+            },
         },
         {
             tableName: "schools",

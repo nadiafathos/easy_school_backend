@@ -111,7 +111,7 @@ export const deleteClasse = async (req, res) => {
 
 export const getClassesByTeacher = async (req, res) => {
   try {
-    const teacherId = req.params.id;
+    const teacherId = req.params.teacherIdd;
 
     const classes = await db.Classe.findAll({
       where: { enseignant_id: teacherId },
